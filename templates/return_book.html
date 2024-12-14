@@ -1,0 +1,63 @@
+{% extends "base.html" %} {% block head %}
+<link
+  rel="icon"
+  type="image/png"
+  sizes="16x16"
+  href="{{ url_for( 'static' , filename = 'return.png') }}"
+/>
+<title>issue Return</title>
+{% endblock %} {% block body %}
+<div style="width: 90%; margin-left: auto; margin-right: auto">
+  <table class="table" style="color: white">
+    <thead>
+      <tr>
+        <th scope="col" style="width: 6%">Book ID</th>
+        <th scope="col">Book Name</th>
+        <th scope="col" style="width: 15%">Author</th>
+        <th scope="col" style="width: 15%">Publisher</th>
+        <th scope="col" style="width: 15%">Operation</th>
+      </tr>
+    </thead>
+    <!-- use a for loop to log every book record -->
+    {% for book in books %}
+    <tbody>
+      <tr>
+        <th scope="row">{{book.book_id}}</th>
+        <td>{{book.book_name}}</td>
+        <td>{{book.author}}</td>
+        <td>{{book.publisher}}</td>
+        <td>
+            <form action="/return_book" method="POST">
+            <label for="ID" class="form-label">Enter Member's ID </label>
+            <input
+              type="text"
+              class="form-control"
+              name="username"
+              value="{{session['name']}}"
+              readonly
+            />
+            <input
+              type="hidden"
+              name="book_id"
+              value="{{ book.book_id }}"
+            />
+            <input
+              type="hidden"
+              name="username"
+              value="{{ session['name'] }}"
+            />
+            <input
+              type="hidden"
+              name="password"
+              value="{{ session['pass'] }}"
+            />
+            <button type="submit" class="btn btn-primary">Return</button>
+          </form>
+
+        </td>
+      </tr>
+    </tbody>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}
